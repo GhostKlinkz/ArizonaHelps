@@ -1,0 +1,273 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arizona RP | Prescott</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+        <div class="container nav-container">
+            <div class="nav-title">Arizona RP - Prescott</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Главная</a>
+                <a href="https://forum.arizona-rp.com/threads/9301161/" target="_blank" class="nav-link">Мануалы МНЮ</a>
+                <a href="https://forum.arizona-rp.com/threads/9607085/" target="_blank" class="nav-link">Личное Дело</a>
+                <a href="https://mvdhelper.ru/MVDHelper.exe" target="_blank" class="nav-link">Скачать МВД Хелпер</a>
+                <a href="https://policehelper.ru/PoliceHelper.exe" target="_blank" class="nav-link">Замена МВД Хелпера</a>
+                <a href="#swat-leaders" class="nav-link">Состав SWAT</a>
+                <a href="#court" class="nav-link">Подать ИСК (Суд)</a>
+                <a href="#server-info" class="nav-link">Информация о Сервере</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container main-content">
+        <h1>Добро пожаловать на Arizona RP - Prescott</h1>
+        <p>
+            Это информационный сайт для игроков Arizona RolePlay на сервере Prescott. Здесь вы найдете мануалы Министерства Юстиции, личные дела, инструкции по установке МВД Хелпера и его замены, состав SWAT, возможность подать иск в суд и информацию о сервере.
+        </p>
+        <div class="card-grid">
+            <div class="card">
+                <h2>Мануалы Министерства Юстиции</h2>
+                <p>
+                    Ознакомьтесь с официальными мануалами МНЮ для Prescott.
+                    <a href="https://forum.arizona-rp.com/threads/9301161/" target="_blank" class="link">Перейти к мануалам</a>
+                </p>
+            </div>
+            <div class="card">
+                <h2>Личное Дело</h2>
+                <p>
+                    Просмотрите или обновите ваше личное дело на форуме Arizona RP.
+                    <a href="https://forum.arizona-rp.com/threads/9607085/" target="_blank" class="link">Перейти к личному делу</a>
+                </p>
+            </div>
+            <div class="card">
+                <h2>Скачать МВД Хелпер</h2>
+                <p class="download-container">
+                    Узнайте, как установить МВД Хелпер для Arizona RP Prescott.
+                    <a href="https://youtu.be/smQ0-hCnvqU?si=IVpoCoisr5ZmVf3-" target="_blank" class="link">Смотреть инструкцию на YouTube</a>
+                    <a href="https://mvdhelper.ru/MVDHelper.exe" target="_blank" class="button">Скачать</a>
+                </p>
+                <p class="ukraine-notice">Если вы из Украины, используйте VPN для скачивания.</p>
+            </div>
+            <div class="card">
+                <h2>Скачать Замену МВД Хелпера</h2>
+                <p class="download-container">
+                    Узнайте, как установить замену МВД Хелпера для Arizona RP Prescott.
+                    <a href="https://youtu.be/YL9fhT3SDUg?si=BFs249q-OmtnFRD3" target="_blank" class="link">Смотреть инструкцию на YouTube</a>
+                    <a href="https://policehelper.ru/PoliceHelper.exe" target="_blank" class="button">Скачать</a>
+                </p>
+                <p class="ukraine-notice">Если вы из Украины, используйте VPN для скачивания.</p>
+                </p>
+            </div>
+            <div class="card">
+                <h2>Подать ИСК (Суд)</h2>
+                <p>
+                    Подайте иск в судебную систему Arizona RP Prescott через форум.
+                    <a href="https://forum.arizona-rp.com/forums/3404/" target="_blank" class="link">Перейти к подаче иска</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- SWAT Composition Section -->
+        <section id="swat-leaders" class="section">
+            <h2>Состав SWAT</h2>
+            <p>
+                Список текущих лидеров и их заместителей фракции SWAT на сервере Arizona RP Prescott.
+            </p>
+            <div class="table-container">
+                <table class="swat-table">
+                    <thead>
+                        <tr>
+                            <th>Ранг</th>
+                            <th>Имя</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Лидер</td>
+                            <td>James_Oklahoma</td>
+                        </tr>
+                        <tr>
+                            <td>Заместитель</td>
+                            <td>Bruno_Shepard</td>
+                        </tr>
+                        <tr>
+                            <td>Заместитель</td>
+                            <td>Liam_Hoog</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Server Information Section -->
+        <section id="server-info" class="section">
+            <h2>Информация о Сервере</h2>
+            <p>
+                Присоединяйтесь к Arizona RP Prescott — одному из самых активных серверов для ролевого отыгрыша в SAMP!
+            </p>
+            <div class="card">
+                <h3>Детали Сервера</h3>
+                <p><strong>IP:</strong> 185.169.134.166:7777</p>
+                <p><strong>Игроки:</strong> До 1000 игроков (обычно 700+ онлайн)</p>
+                <p><strong>Режим:</strong> RolePlay (SAMP)</p>
+                <a href="https://forum.arizona-rp.com/" target="_blank" class="button">Присоединиться к серверу</a>
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section id="factions" class="section">
+            <h2>События</h2>
+            <p>
+                Анонсы ролевых событий на Arizona RP Prescott, организованных ГРП.
+            </p>
+            <div class="card-grid">
+                <div class="card event-card">
+                    <h3>ГРП</h3>
+                    <p>
+                        Организует ролевые события: авария на дорогах (вторник, 17:30), крушение самолета (пятница, 17:30), завод (суббота, 19:30). 
+                        <a href="https://forum.arizona-rp.com/threads/9363281/" target="_blank" class="link">Подробнее о событии на заводе</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section id="resources" class="section">
+            <h2>Полезные Ресурсы</h2>
+            <p>
+                Оставайтесь на связи с сообществом Arizona RP Prescott через официальные каналы и ресурсы.
+            </p>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Discord Arizona RP</h3>
+                    <p>
+                        Присоединяйтесь к официальному Discord-серверу для общения, новостей и поддержки.
+                        <a href="https://discord.gg/RJAHryhX" target="_blank" class="link">Перейти в Discord</a>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>VK Сообщество</h3>
+                    <p>
+                        Следите за обновлениями и событиями в официальной группе ВКонтакте.
+                        <a href="https://vk.com/arizonastaterp" target="_blank" class="link">Перейти в VK</a>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Официальный Сайт</h3>
+                    <p>
+                        Посетите официальный сайт Arizona RP для загрузки клиента и дополнительной информации.
+                        <a href="https://arizona-rp.com/" target="_blank" class="link">Перейти на сайт</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newbie Help Section -->
+        <section id="newbie-help" class="section">
+            <h2>Помощь новичкам</h2>
+            <p>
+                Новичок в Arizona RP Prescott? Мы поможем вам освоиться! Если у вас есть вопросы или нужна помощь, пишите нам.
+            </p>
+            <div class="card">
+                <h3>Связаться с нами</h3>
+                <p>
+                    Отправьте ваш вопрос на почту: 
+                    <a href="mailto:taralaroslav@gmail.com" class="email-link">taralaroslav@gmail.com</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Arizona RP Prescott. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>
